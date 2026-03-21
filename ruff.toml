@@ -1,0 +1,24 @@
+# ruff.toml
+line-length = 88
+target-version = "py312"
+
+[lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "C",   # flake8-comprehensions
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[lint.isort]
+known-first-party = ["page_analyzer"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

@@ -1,0 +1,30 @@
+[project]
+name = "hexlet-code"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask>=3.1.3",
+    "gunicorn>=25.1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["page_analyzer"]
+
+[dependency-groups]
+dev = [
+    "flake8>=7.3.0",
+    "pylint>=4.0.5",
+    "ruff>=0.15.7",
+]
+
+[project.scripts]
+page-analyzer = "page_analyzer.app:main"
+lint = "ruff check page_analyzer"
+format = "ruff format page_analyzer"
+lint-fix = "ruff check --fix page_analyzer"
