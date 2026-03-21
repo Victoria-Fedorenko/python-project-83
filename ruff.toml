@@ -1,24 +1,9 @@
-# ruff.toml
-line-length = 88
-target-version = "py312"
+line-length = 80
+
+[lint.per-file-ignores]
+  # init modules can contain the local imports, logic, unused imports
+"__init__.py" = ["F401"]
 
 [lint]
-select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "F",   # pyflakes
-    "I",   # isort
-    "C",   # flake8-comprehensions
-    "B",   # flake8-bugbear
-    "UP",  # pyupgrade
-]
-ignore = [
-    "E501",  # line too long (handled by formatter)
-]
-
-[lint.isort]
-known-first-party = ["page_analyzer"]
-
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
+preview = true
+select = ["E", "F", "I", "C90"]

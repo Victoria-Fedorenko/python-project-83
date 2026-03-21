@@ -25,6 +25,3 @@ dev = [
 
 [project.scripts]
 page-analyzer = "page_analyzer.app:main"
-lint = "ruff check page_analyzer"
-format = "ruff format page_analyzer"
-lint-fix = "ruff check --fix page_analyzer"
