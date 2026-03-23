@@ -6,10 +6,10 @@ from flask import (
 from flask_bootstrap import Bootstrap5
 
 app = Flask(__name__)
-
+bootstrap = Bootstrap5(app)
 
 @app.route('/')
-def say_hi():
+def index():
     return render_template('index.html')
 
 
