@@ -5,9 +5,7 @@ from flask import (
 
 app = Flask(__name__)
 
-app.route('/')
-
-
+@app.route('/')
 def say_hi():
     return render_template('index.html')
 
