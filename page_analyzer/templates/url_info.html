@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Сайт: {{ info.name }}{% endblock %}
+
+{% block content %}
+<table class="table-responsive">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя сайта</th>
+            <th>Дата создания</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ info.id }}</td>
+            <td>{{ info.name }}</td>
+            <td>{{ info.created_at }}</td>
+        </tr>
+    </tbody>
+</table>

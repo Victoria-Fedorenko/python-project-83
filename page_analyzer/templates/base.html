@@ -10,14 +10,14 @@
             {{ bootstrap.load_css() }}
         {% endblock %}
 
-        <title>{% block title %}Page Analyzer{% endblock %}</title>
+        <title>{% block title %}Анализатор страниц{% endblock %}</title>
         {% endblock %}
     </head>
     <body>
         {% block navbar %}
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="{{ url_for('index') }}">Page Analyzer</a>
+                <a class="navbar-brand" href="{{ url_for('index') }}">Анализатор страниц</a>
             </div>
         </nav>
         {% endblock %}
