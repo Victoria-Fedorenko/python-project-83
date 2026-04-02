@@ -7,7 +7,7 @@ from flask import (
 )
 
 from flask_bootstrap import Bootstrap5
-from repository import AnalyzerRepo
+from page_analyzer.repository import AnalyzerRepo
 import psycopg2
 import validators
 
