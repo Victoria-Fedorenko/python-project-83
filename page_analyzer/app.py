@@ -10,10 +10,17 @@ from flask_bootstrap import Bootstrap5
 from page_analyzer.repository import AnalyzerRepo
 import psycopg2
 import validators
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
 
+load_dotenv()
+
+DATABASE_URL = os.getenv('DATABASE_URL')
 conn = psycopg2.connect(DATABASE_URL)
 repo = AnalyzerRepo(conn)
 
