@@ -52,7 +52,7 @@ def add_url():
 		return render_template('index.html', url={"name": url_to_check}, errors={}), 500
 
 
-@app.route('/urls/<int: id>')
+@app.route('/urls/<int:id>')
 def show_url_info(id):
 	info = repo.get_url_info(id)
 	if info is None:
