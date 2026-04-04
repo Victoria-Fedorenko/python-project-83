@@ -3,7 +3,8 @@ from flask import (
 	render_template,
 	request,
 	flash,
-	redirect
+	redirect,
+	url_for
 )
 
 from flask_bootstrap import Bootstrap5
@@ -32,17 +33,33 @@ def index():
 def add_url():
 	url_to_check = request.form.get("url")
 	if not url_to_check:
-		return "Url не указан", 400
+		errors = {"name": "please enter url"}
+		flash("Please enter url", 'danger')
+		return render_template('/', url=url_to_check, errors=errors)
 	if not validators.url(url_to_check):
 		errors = {"name": "invalid url"}
-		flash('Url is incorrect')
-		return redirect('/', url=url_to_check, errors=errors)
-	repo.add_url(url_to_check)
+		flash('Url is incorrect', 'danger')
+		return render_template('/', url=url_to_check, errors=errors)
+	try:
+		url_id = repo.add_url(url_to_check)
+		return redirect(url_for('show_url_info', id=url_id))
+	except psycopg2.errors.UniqueViolation:
+		flash('Url is already in db', 'warning')
+		url_id = repo.get_id_by_name(url_to_check)
+		return redirect(url_for('show_url_info', id=url_id))
+	except Exception as e:
+		flash(f'Ошибка при добавлении URL: {str(e)}', 'danger')
+		return render_template('index.html', url={"name": url_to_check}, errors={}), 500
 
-@app.route('/urls/<id>')
+
+@app.route('/urls/<int: id>')
 def show_url_info(id):
 	info = repo.get_url_info(id)
+	if info is None:
+		flash('Url is not found', 'danger')
+		return redirect('/', url={}, errors={})
 	return render_template('url_info.html', info=info)
+	
 
 
 
