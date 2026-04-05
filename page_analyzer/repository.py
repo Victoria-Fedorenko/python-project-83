@@ -12,7 +12,7 @@ class AnalyzerRepo:
     
     def add_url(self, url):
         with self.conn.cursor(cursor_factory=DictCursor) as cur:
-            cur.execute('INSERT INTO urls (name) VALUES (%s)', (url['name'],))
+            cur.execute('INSERT INTO urls (name) VALUES (%s) RETURNING id', (url,))
             url_id = cur.fetchone()['id']
         self.conn.commit()
         return url_id
@@ -24,6 +24,6 @@ class AnalyzerRepo:
         
     def get_id_by_name(self, url):
         with self.conn.cursor(cursor_factory=DictCursor) as cur:
-            cur.execute('SELECT id FROM urls WHERE name = %s', (url['name']))
-            url_name = cur.fetchone()['name']
-            return url_name
+            cur.execute('SELECT id FROM urls WHERE name = %s', (url,))
+            url_id = cur.fetchone()['id']
+            return url_id

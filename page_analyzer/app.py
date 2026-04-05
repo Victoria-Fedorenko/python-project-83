@@ -22,6 +22,7 @@ bootstrap = Bootstrap5(app)
 load_dotenv()
 
 DATABASE_URL = os.getenv('DATABASE_URL')
+SECRET_KEY = os.getenv('SECRET_KEY')
 conn = psycopg2.connect(DATABASE_URL)
 repo = AnalyzerRepo(conn)
 
@@ -35,11 +36,11 @@ def add_url():
 	if not url_to_check:
 		errors = {"name": "please enter url"}
 		flash("Please enter url", 'danger')
-		return render_template('/', url=url_to_check, errors=errors)
+		return render_template('/', url={"name": url_to_check}, errors=errors)
 	if not validators.url(url_to_check):
 		errors = {"name": "invalid url"}
 		flash('Url is incorrect', 'danger')
-		return render_template('/', url=url_to_check, errors=errors)
+		return render_template('/', url={"name": url_to_check}, errors=errors)
 	try:
 		url_id = repo.add_url(url_to_check)
 		return redirect(url_for('show_url_info', id=url_id))
