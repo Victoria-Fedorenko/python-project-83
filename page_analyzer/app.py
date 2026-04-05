@@ -14,7 +14,6 @@ import validators
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
 
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
@@ -22,7 +21,7 @@ bootstrap = Bootstrap5(app)
 load_dotenv()
 
 DATABASE_URL = os.getenv('DATABASE_URL')
-SECRET_KEY = os.getenv('SECRET_KEY')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 conn = psycopg2.connect(DATABASE_URL)
 repo = AnalyzerRepo(conn)
 
