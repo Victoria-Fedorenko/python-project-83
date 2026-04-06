@@ -41,11 +41,7 @@ def add_url():
 		flash('Url is incorrect', 'danger')
 		return render_template('/', url={"name": url_to_check}, errors=errors)
 	try:
-		url_id = repo.add_url(url_to_check)
-		return redirect(url_for('show_url_info', id=url_id))
-	except psycopg2.errors.UniqueViolation:
-		flash('Url is already in db', 'warning')
-		url_id = repo.get_id_by_name(url_to_check)
+		url_id = repo.add_url_if_not_exists(url_to_check)
 		return redirect(url_for('show_url_info', id=url_id))
 	except Exception as e:
 		flash(f'Ошибка при добавлении URL: {str(e)}', 'danger')

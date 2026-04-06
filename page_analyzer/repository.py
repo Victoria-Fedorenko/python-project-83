@@ -16,6 +16,13 @@ class AnalyzerRepo:
             url_id = cur.fetchone()['id']
         self.conn.commit()
         return url_id
+    
+    def add_url_if_not_exists(self, url):
+        try:
+            return self.add_url(url)
+        except psycopg2.errors.UniqueViolation:
+            self.conn.rollback()
+            return self.get_id_by_name(url)
 
     def get_url_info(self, id):
         with self.conn.cursor(cursor_factory=DictCursor) as cur:
