@@ -22,7 +22,14 @@ load_dotenv()
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-conn = psycopg2.connect(DATABASE_URL)
+conn = psycopg2.connect(DATABASE_URL,
+    sslmode='require',
+    connect_timeout=10,
+    keepalives=1,
+    keepalives_idle=5,
+    keepalives_interval=2,
+    keepalives_count=3
+)
 repo = AnalyzerRepo(conn)
 
 @app.route('/')
