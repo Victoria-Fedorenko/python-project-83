@@ -36,7 +36,7 @@ class AnalyzerRepo:
     def get_urls(self):
         conn = self.get_connection()
         try: 
-            with self.conn.cursor(cursor_factory=DictCursor) as cur:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute("SELECT * FROM urls")
                 return [dict(row) for row in cur]
         finally:
@@ -45,7 +45,7 @@ class AnalyzerRepo:
     def add_url(self, url):
         conn = self.get_connection()
         try:
-            with self.conn.cursor(cursor_factory=DictCursor) as cur:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute('INSERT INTO urls (name) VALUES (%s) RETURNING id', (url,))
                 url_id = cur.fetchone()['id']
             self.conn.commit()
@@ -63,7 +63,7 @@ class AnalyzerRepo:
     def get_url_info(self, id):
         conn = self.get_connection()
         try:
-            with self.conn.cursor(cursor_factory=DictCursor) as cur:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute('SELECT * FROM urls WHERE id = (%s)', (id,))
                 return dict(cur.fetchone()) if cur.rowcount > 0 else None
         finally:
@@ -72,7 +72,7 @@ class AnalyzerRepo:
     def get_id_by_name(self, url):
         conn = self.get_connection()
         try:
-            with self.conn.cursor(cursor_factory=DictCursor) as cur:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute('SELECT id FROM urls WHERE name = %s', (url,))
                 url_id = cur.fetchone()['id']
                 return url_id
