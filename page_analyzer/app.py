@@ -29,15 +29,15 @@ def index():
 
 @app.route("/", methods=["POST"])
 def add_url():
-	url_to_check = request.form.get("url")
+	url_to_check = request.form.get("url").strip()
 	if not url_to_check:
 		errors = {"name": "please enter url"}
 		flash("Please enter url", 'danger')
-		return render_template('index.html', url={"name": url_to_check}, errors=errors)
+		return render_template('index.html', url={"name": url_to_check}, errors=errors), 400
 	if not validators.url(url_to_check):
 		errors = {"name": "invalid url"}
 		flash('Url is incorrect', 'danger')
-		return render_template('index.html', url={"name": url_to_check}, errors=errors)
+		return render_template('index.html', url={"name": url_to_check}, errors=errors), 422
 	try:
 		url_id = repo.add_url_if_not_exists(url_to_check)
 		return redirect(url_for('show_url_info', id=url_id))

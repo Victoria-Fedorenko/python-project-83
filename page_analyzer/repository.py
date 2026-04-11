@@ -48,7 +48,7 @@ class AnalyzerRepo:
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute('INSERT INTO urls (name) VALUES (%s) RETURNING id', (url,))
                 url_id = cur.fetchone()['id']
-            self.conn.commit()
+            conn.commit()
             return url_id
         finally:
             conn.close()
