@@ -54,11 +54,14 @@ class AnalyzerRepo:
             conn.close()
     
     def add_url_if_not_exists(self, url):
+        conn = self.get_connection()
         try:
             return self.add_url(url)
         except psycopg2.errors.UniqueViolation:
-            self.conn.rollback()
+            conn.rollback()
             return self.get_id_by_name(url)
+        finally:
+            conn.close()
 
     def get_url_info(self, id):
         conn = self.get_connection()
