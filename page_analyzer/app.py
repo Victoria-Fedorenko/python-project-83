@@ -9,7 +9,6 @@ from flask import (
 
 from flask_bootstrap import Bootstrap5
 from page_analyzer.repository import AnalyzerRepo
-import psycopg2
 import validators
 import os
 from dotenv import load_dotenv
