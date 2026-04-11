@@ -53,7 +53,12 @@ def show_url_info(id):
 		flash('Url is not found', 'danger')
 		return render_template('index.html', url={}, errors={})
 	return render_template('url_info.html', info=info)
-	
+
+
+@app.route('/urls')
+def show_all_urls():
+	urls = repo.get_urls()
+	return render_template('all_urls.html', urls=urls)
 
 
 

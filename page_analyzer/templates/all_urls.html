@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Все добавленные сайты{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Список всех URL</h1>
+    
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>URL</th>
+                <th>Дата создания</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for url in urls %}
+            <tr>
+                <td>{{ url.id }}</td>
+                <td>
+                    <a href="{{ url_for('show_url_info', id=url.id) }}" target="_blank">
+                        {{ url.name }}
+                    </a>
+                </td>
+                <td>{{ url.created_at }}</td>
+                <td>
+                    <a href="{{ url_for('show_url_info', id=url.id) }}" class="btn btn-sm btn-info">
+                        Подробнее
+                    </a>
+                </td>
+            </tr>
+            {% if not urls %}
+            <tr>
+                <td colspan="5" class="text-center">Нет добавленных URL</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

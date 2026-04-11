@@ -37,7 +37,7 @@ class AnalyzerRepo:
         conn = self.get_connection()
         try: 
             with conn.cursor(cursor_factory=DictCursor) as cur:
-                cur.execute("SELECT * FROM urls")
+                cur.execute("SELECT * FROM urls ORDER BY created_at DESC;")
                 return [dict(row) for row in cur]
         finally:
             conn.close()
