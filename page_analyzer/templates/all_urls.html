@@ -17,6 +17,11 @@
             </tr>
         </thead>
         <tbody>
+            {% if not urls %}
+            <tr>
+                <td colspan="5" class="text-center">Нет добавленных URL</td>
+            </tr>
+            {% endif %}
             {% for url in urls %}
             <tr>
                 <td>{{ url.id }}</td>
@@ -31,10 +36,6 @@
                         Подробнее
                     </a>
                 </td>
-            </tr>
-            {% if not urls %}
-            <tr>
-                <td colspan="5" class="text-center">Нет добавленных URL</td>
             </tr>
             {% endfor %}
         </tbody>
