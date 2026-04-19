@@ -48,10 +48,13 @@ def add_url():
 @app.route('/urls/<int:id>')
 def show_url_info(id):
 	info = repo.get_url_info(id)
+	result = repo.get_results_by_id(id)
 	if info is None:
 		flash('Url is not found', 'danger')
 		return render_template('index.html', url={}, errors={})
-	return render_template('url_info.html', info=info)
+	if result is None:
+		return render_template('url_info.html', info=info, result=[])
+	return render_template('url_info.html', info=info, result=result)
 
 
 @app.route('/urls')
@@ -59,6 +62,20 @@ def show_all_urls():
 	urls = repo.get_urls()
 	return render_template('all_urls.html', urls=urls)
 
+
+@app.route('/urls/<id>/checks', methods=["POST"])
+def check_id(id):
+	if repo.do_check(id) is True:
+		flash('Successfully checked', 'success')
+		return redirect(url_for('show_url_info', id=id))
+	else:
+		flash('Error occured while checking', 'danger')
+		return redirect(url_for('show_url_info', id=id))
+
+
+
+
+	
 
 
 if __name__ == '__main__':

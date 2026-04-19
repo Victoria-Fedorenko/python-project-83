@@ -81,3 +81,24 @@ class AnalyzerRepo:
                 return url_id
         finally:
             conn.close()
+
+    def do_check(self, id):
+        conn = self.get_connection()
+        try:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute('INSERT INTO url_checks (url_id) VALUES (%s)', (id,))
+                return True
+        except:
+            return False
+        finally:
+            conn.close()
+    
+    def get_results_by_id(self, id):
+        conn = self.get_connection()
+        try:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute('SELECT * FROM url_checks WHERE url_id = %s', (id))
+                return [dict(row) for row in cur]
+        finally:
+            conn.close()
+

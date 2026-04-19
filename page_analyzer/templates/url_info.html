@@ -20,4 +20,40 @@
         </tr>
     </tbody>
 </table>
+
+<form action="/urls/{{ info.id }}/checks" method="POST">
+    <button type="submit">Запустить проверку</button>
+</form>
+
+<h2>Проверки сайта {{ info.name }}</h2>
+<table class="table-responsive">
+    <thead>
+        <tr>
+            <th>ID проверки</th>
+            <th>ID сайта</th>
+            <th>Статус</th>
+            <th>H1</th>
+            <th>Заголовок</th>
+            <th>Описание</th>
+            <th>Дата и время проверки</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if not result %}
+            <tr>
+                <td colspan="5" class="text-center">Проверок не было</td>
+            </tr>
+        {% endif %}
+        {% for r in result %}
+        <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.url_id }}</td>
+            <td>{{ r.status_code }}</td>
+            <td>{{ r.h1 }}</td>
+            <td>{{ r.title }}</td>
+            <td>{{ r.description }}</td>
+            <td>{{ r.created_at }}</td>
+        </tr>
+    </tbody>
+</table>
 {% endblock %}
