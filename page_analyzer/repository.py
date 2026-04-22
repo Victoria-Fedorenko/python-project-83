@@ -87,6 +87,7 @@ class AnalyzerRepo:
         try:
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute('INSERT INTO url_checks (url_id) VALUES (%s)', (id,))
+                conn.commit()
                 return True
         except:
             return False
@@ -98,7 +99,7 @@ class AnalyzerRepo:
         try:
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute('SELECT * FROM url_checks WHERE url_id = %s', (id, ))
-                return [dict(row) for row in cur]
+                return cur.fetchall()
         finally:
             conn.close()
 
