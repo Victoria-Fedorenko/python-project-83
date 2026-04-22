@@ -97,7 +97,7 @@ class AnalyzerRepo:
         conn = self.get_connection()
         try:
             with conn.cursor(cursor_factory=DictCursor) as cur:
-                cur.execute('SELECT * FROM url_checks WHERE url_id = %s', (id))
+                cur.execute('SELECT * FROM url_checks WHERE url_id = %s', (id, ))
                 return [dict(row) for row in cur]
         finally:
             conn.close()
