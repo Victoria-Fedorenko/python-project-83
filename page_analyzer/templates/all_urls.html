@@ -12,6 +12,7 @@
                 <th>ID</th>
                 <th>URL</th>
                 <th>Дата создания</th>
+                <th>Последняя проверка</th>
                 <th>Детали</th>
             </tr>
         </thead>
@@ -30,6 +31,7 @@
                     </a>
                 </td>
                 <td>{{ url.created_at }}</td>
+                <td>{{ url.last_check }}</td>
                 <td>
                     <a href="{{ url_for('show_url_info', id=url.id) }}" class="btn btn-sm btn-info">
                         Подробнее
