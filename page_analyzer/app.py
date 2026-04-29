@@ -1,3 +1,5 @@
+from urllib.error import HTTPError
+
 from flask import (
 	Flask,
 	render_template,
@@ -66,7 +68,15 @@ def show_all_urls():
 
 @app.route('/urls/<id>/checks', methods=["POST"])
 def check_id(id):
-	if repo.do_check(id) is True:
+	try:
+		url_name = repo.get_url_by_id(id)
+		response = request.get(url_name)
+		response.raise_for_status()
+		sc = response.status_code
+	except HTTPError as e:
+		flash(f'Error {e} occured while getting status code', 'danger')
+		return redirect(url_for('show_url_info', id=id))
+	if repo.do_check(id, sc) is True:
 		flash('Successfully checked', 'success')
 		return redirect(url_for('show_url_info', id=id))
 	else:

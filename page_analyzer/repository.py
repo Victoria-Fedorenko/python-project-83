@@ -87,11 +87,11 @@ class AnalyzerRepo:
         finally:
             conn.close()
 
-    def do_check(self, id):
+    def do_check(self, id, sc):
         conn = self.get_connection()
         try:
             with conn.cursor(cursor_factory=DictCursor) as cur:
-                cur.execute('INSERT INTO url_checks (url_id) VALUES (%s)', (id,))
+                cur.execute('INSERT INTO url_checks (url_id, status_code) VALUES (%s)', (id, sc, ))
                 conn.commit()
                 return True
         except:
@@ -108,3 +108,11 @@ class AnalyzerRepo:
         finally:
             conn.close()
 
+    def get_url_by_id(self, id):
+        conn = self.get_connection()
+        try:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute('SELECT name FROM urls WHERE id = %s', (id, ))
+                return cur.fetchone()['name']
+        finally:
+            conn.close()
