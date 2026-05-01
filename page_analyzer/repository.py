@@ -37,11 +37,15 @@ class AnalyzerRepo:
         conn = self.get_connection()
         try: 
             with conn.cursor(cursor_factory=DictCursor) as cur:
-                cur.execute("""SELECT u.*, MAX(uc.created_at) as last_check
+                cur.execute("""SELECT u.*, 
+                            uc_last.status_code as last_status_code,
+                            uc_last.created_at as last_check 
                             FROM urls as u 
-                            LEFT JOIN url_checks as uc
-                            ON u.id = uc.url_id
-                            GROUP BY u.id
+                            LEFT JOIN (SELECT DISTINCT ON (url_id) 
+                            url_id, status_code, created_at
+                            FROM url_checks
+                            ORDER BY url_id, created_at DESC)
+                            as uc_last ON u.id = uc_last.url_id
                             ORDER BY u.created_at DESC;""")
                 return [dict(row) for row in cur]
         finally:
