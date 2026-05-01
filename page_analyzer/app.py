@@ -77,7 +77,10 @@ def check_id(id):
 	except HTTPError as e:
 		flash(f'Error {e} occured while getting status code', 'danger')
 		return redirect(url_for('show_url_info', id=id))
-	if repo.do_check(id, sc) is True:
+	if sc == 403:
+		flash('Checking is blocked by site', 'danger')
+		return redirect(url_for('show_url_info', id=id))
+	elif repo.do_check(id, sc) is True:
 		flash('Successfully checked', 'success')
 		return redirect(url_for('show_url_info', id=id))
 	else:
