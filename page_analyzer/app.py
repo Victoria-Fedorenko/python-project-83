@@ -1,5 +1,3 @@
-from urllib.error import HTTPError
-
 from flask import (
 	Flask,
 	render_template,
@@ -16,6 +14,7 @@ import validators
 import os
 from dotenv import load_dotenv
 import requests
+from requests.exceptions import HTTPError 
 
 
 app = Flask(__name__)
@@ -77,10 +76,7 @@ def check_id(id):
 	except HTTPError as e:
 		flash(f'Error {e} occured while getting status code', 'danger')
 		return redirect(url_for('show_url_info', id=id))
-	if sc == 403:
-		flash('Checking is blocked by site', 'danger')
-		return redirect(url_for('show_url_info', id=id))
-	elif repo.do_check(id, sc) is True:
+	if repo.do_check(id, sc) is True:
 		flash('Successfully checked', 'success')
 		return redirect(url_for('show_url_info', id=id))
 	else:
