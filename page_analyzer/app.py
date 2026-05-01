@@ -15,6 +15,7 @@ from page_analyzer.repository import AnalyzerRepo
 import validators
 import os
 from dotenv import load_dotenv
+import requests
 
 
 app = Flask(__name__)
@@ -70,7 +71,7 @@ def show_all_urls():
 def check_id(id):
 	try:
 		url_name = repo.get_url_by_id(id)
-		response = request.get(url_name)
+		response = requests.get(url_name)
 		response.raise_for_status()
 		sc = response.status_code
 	except HTTPError as e:
