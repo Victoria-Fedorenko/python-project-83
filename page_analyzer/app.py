@@ -70,17 +70,39 @@ def show_all_urls():
 def check_id(id):
 	url_name = repo.get_url_by_id(id)
 	response = requests.get(url_name)
-	def make_seo_analysis():
-		soup = BeautifulSoup(response.text, 'html.parser')
+	soup = BeautifulSoup(response.text, 'html.parser')
+	def truncate_text(text, max_length=200):
+		if not text:
+			return None
+		if len(text) > max_length:
+			return text[:max_length] + '...'
+		return text
+	def get_h1(soup):
 		h1_text = soup.h1.get_text(strip=True) if soup.h1 else None
+		if h1_text is None:
+			return None
+		return truncate_text(h1_text)
+	def get_title(soup):
 		title_text = soup.title.get_text(strip=True) if soup.title else None
+		if title_text is None:
+			return None
+		return truncate_text(title_text)
+	def get_description(soup):
+		meta_desc = soup.find('meta', attrs={'name': 'description'})
+		if meta_desc.get('content'):
+			content = meta_desc.get('content')
+			return truncate_text(content)
+		return None
 	try:
 		response.raise_for_status()
 		sc = response.status_code
+		h1 = get_h1(soup)
+		title = get_title(soup)
+		description = get_description(soup)
 	except HTTPError as e:
 		flash(f'Error {e} occured while getting status code', 'danger')
 		return redirect(url_for('show_url_info', id=id))
-	if repo.do_check(id, sc) is True:
+	if repo.do_check(id, sc, h1, title, description) is True:
 		flash('Successfully checked', 'success')
 		return redirect(url_for('show_url_info', id=id))
 	else:

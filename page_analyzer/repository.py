@@ -91,11 +91,11 @@ class AnalyzerRepo:
         finally:
             conn.close()
 
-    def do_check(self, id, sc):
+    def do_check(self, id, sc, h1, title, description):
         conn = self.get_connection()
         try:
             with conn.cursor(cursor_factory=DictCursor) as cur:
-                cur.execute('INSERT INTO url_checks (url_id, status_code) VALUES (%s, %s)', (id, sc, ))
+                cur.execute('INSERT INTO url_checks (url_id, status_code, h1, title, description) VALUES (%s, %s, %s, %s, %s)', (id, sc, h1, title, description,))
                 conn.commit()
                 return True
         except:
