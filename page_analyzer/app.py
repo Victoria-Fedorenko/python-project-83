@@ -15,7 +15,7 @@ import os
 from dotenv import load_dotenv
 import requests
 from requests.exceptions import HTTPError 
-
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
@@ -68,9 +68,13 @@ def show_all_urls():
 
 @app.route('/urls/<id>/checks', methods=["POST"])
 def check_id(id):
+	url_name = repo.get_url_by_id(id)
+	response = requests.get(url_name)
+	def make_seo_analysis():
+		soup = BeautifulSoup(response.text, 'html.parser')
+		h1_text = soup.h1.get_text(strip=True) if soup.h1 else None
+		title_text = soup.title.get_text(strip=True) if soup.title else None
 	try:
-		url_name = repo.get_url_by_id(id)
-		response = requests.get(url_name)
 		response.raise_for_status()
 		sc = response.status_code
 	except HTTPError as e:
