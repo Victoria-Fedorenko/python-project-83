@@ -89,9 +89,11 @@ def check_id(id):
 		return truncate_text(title_text)
 	def get_description(soup):
 		meta_desc = soup.find('meta', attrs={'name': 'description'})
-		if meta_desc.get('content'):
-			content = meta_desc.get('content')
-			return truncate_text(content)
+		if meta_desc:
+			if meta_desc.get('content'):
+				content = meta_desc.get('content')
+				return truncate_text(content)
+			return None
 		return None
 	try:
 		response.raise_for_status()
