@@ -104,7 +104,7 @@ class AnalyzerRepo:
                             (id, sc, h1, title, description,))
                 conn.commit()
                 return True
-        except Exception:
+        except psycopg2.Error as e:
             return False
         finally:
             conn.close()
@@ -125,6 +125,7 @@ class AnalyzerRepo:
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute('SELECT name FROM urls WHERE id = %s', 
                             (id, ))
-                return cur.fetchone()['name']
+                result = cur.fetchone()
+                return result['name'] if result else None
         finally:
             conn.close()

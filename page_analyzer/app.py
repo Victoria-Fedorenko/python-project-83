@@ -74,6 +74,10 @@ def check_id(id):
 	response = requests.get(url_name)
 	soup = BeautifulSoup(response.text, 'html.parser')
 
+	if not url_name:
+		flash('URL not found', 'danger')
+		return redirect(url_for('show_url_info', id=id))
+
 	try:
 		response.raise_for_status()
 		sc = response.status_code
