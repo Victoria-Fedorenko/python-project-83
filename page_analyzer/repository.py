@@ -1,7 +1,9 @@
-import psycopg2
-from psycopg2.extras import DictCursor
 import os
 from urllib.parse import urlparse
+
+import psycopg2
+from psycopg2.extras import DictCursor
+
 
 class AnalyzerRepo:
     def __init__(self):
@@ -55,7 +57,8 @@ class AnalyzerRepo:
         conn = self.get_connection()
         try:
             with conn.cursor(cursor_factory=DictCursor) as cur:
-                cur.execute('INSERT INTO urls (name) VALUES (%s) RETURNING id', (url,))
+                cur.execute('INSERT INTO urls (name) VALUES (%s) RETURNING id', 
+                            (url,))
                 url_id = cur.fetchone()['id']
             conn.commit()
             return url_id
@@ -95,10 +98,13 @@ class AnalyzerRepo:
         conn = self.get_connection()
         try:
             with conn.cursor(cursor_factory=DictCursor) as cur:
-                cur.execute('INSERT INTO url_checks (url_id, status_code, h1, title, description) VALUES (%s, %s, %s, %s, %s)', (id, sc, h1, title, description,))
+                cur.execute("""INSERT INTO url_checks 
+                            (url_id, status_code, h1, title, description) 
+                            VALUES (%s, %s, %s, %s, %s)""",
+                            (id, sc, h1, title, description,))
                 conn.commit()
                 return True
-        except:
+        except Exception:
             return False
         finally:
             conn.close()
@@ -107,7 +113,8 @@ class AnalyzerRepo:
         conn = self.get_connection()
         try:
             with conn.cursor(cursor_factory=DictCursor) as cur:
-                cur.execute('SELECT * FROM url_checks WHERE url_id = %s', (id, ))
+                cur.execute('SELECT * FROM url_checks WHERE url_id = %s', 
+                            (id, ))
                 return cur.fetchall()
         finally:
             conn.close()
@@ -116,7 +123,8 @@ class AnalyzerRepo:
         conn = self.get_connection()
         try:
             with conn.cursor(cursor_factory=DictCursor) as cur:
-                cur.execute('SELECT name FROM urls WHERE id = %s', (id, ))
+                cur.execute('SELECT name FROM urls WHERE id = %s', 
+                            (id, ))
                 return cur.fetchone()['name']
         finally:
             conn.close()
