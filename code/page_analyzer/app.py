@@ -8,8 +8,8 @@ from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_bootstrap import Bootstrap5
 from requests.exceptions import HTTPError
 
-from page_analyzer.html_parser import get_description, get_h1, get_title
-from page_analyzer.repository import AnalyzerRepo
+from .html_parser import get_description, get_h1, get_title
+from .repository import AnalyzerRepo
 
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
