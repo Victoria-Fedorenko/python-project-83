@@ -42,6 +42,7 @@ def add_url():
 						errors=errors), 422
 	try:
 		url_id = repo.add_url_if_not_exists(url_to_check)
+		flash('Страница успешно добавлена', 'success')
 		return redirect(url_for('show_url_info', id=url_id))
 	except Exception as e:
 		flash(f'Ошибка при добавлении URL: {str(e)}', 'danger')
