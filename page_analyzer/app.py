@@ -10,6 +10,7 @@ from requests.exceptions import HTTPError
 
 from .html_parser import get_description, get_h1, get_title
 from .repository import AnalyzerRepo
+from .normalize import normazile
 
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
@@ -41,13 +42,14 @@ def add_url():
 						url={"name": url_to_check},
 						errors=errors), 422
 	try:
-		url_id = repo.add_url_if_not_exists(url_to_check)
+		url_norm = normazile(url_to_check)
+		url_id = repo.add_url_if_not_exists(url_norm)
 		flash('Страница успешно добавлена', 'success')
 		return redirect(url_for('show_url_info', id=url_id))
 	except Exception as e:
 		flash(f'Ошибка при добавлении URL: {str(e)}', 'danger')
 		return render_template('index.html', 
-						url={"name": url_to_check}, 
+						url={"name": url_norm}, 
 						errors={}), 500
 
 
