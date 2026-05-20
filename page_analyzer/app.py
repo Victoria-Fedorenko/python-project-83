@@ -43,8 +43,11 @@ def add_url():
 						errors=errors), 422
 	try:
 		url_norm = normazile(url_to_check)
-		url_id = repo.add_url_if_not_exists(url_norm)
-		flash('Страница успешно добавлена', 'success')
+		url_id, result = repo.add_url_if_not_exists(url_norm)
+		if result == True:
+			flash('Страница успешно добавлена', 'success')
+		elif result == False:
+			flash('Страница уже существует', 'danger')
 		return redirect(url_for('show_url_info', id=url_id))
 	except Exception as e:
 		flash(f'Ошибка при добавлении URL: {str(e)}', 'danger')
