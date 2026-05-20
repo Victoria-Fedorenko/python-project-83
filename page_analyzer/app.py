@@ -94,7 +94,7 @@ def check_id(id):
 		flash(f'Error {e} occured while getting status code', 'danger')
 		return redirect(url_for('show_url_info', id=id))
 	if repo.do_check(id, sc, h1, title, description) is True:
-		flash('Successfully checked', 'success')
+		flash('Страница успешно проверена', 'success')
 		return redirect(url_for('show_url_info', id=id))
 	else:
 		flash('Error occured while checking', 'danger')
