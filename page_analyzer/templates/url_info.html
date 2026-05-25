@@ -30,7 +30,6 @@
     <thead>
         <tr>
             <th>ID проверки</th>
-            <th>ID сайта</th>
             <th>Статус</th>
             <th>H1</th>
             <th>Заголовок</th>
@@ -47,7 +46,6 @@
         {% for r in result %}
         <tr>
             <td>{{ r.id }}</td>
-            <td>{{ r.url_id }}</td>
             <td>{{ r.status_code }}</td>
             <td>{{ r.h1 }}</td>
             <td>{{ r.title }}</td>
