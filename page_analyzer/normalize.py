@@ -1,6 +1,6 @@
 from urllib.parse import urlparse
 
-def normazile(url: str) -> str:
+def normalize(url: str) -> str:
     parsed = urlparse(url.lower())
     if not parsed.hostname:
         raise ValueError('Invalid URL')

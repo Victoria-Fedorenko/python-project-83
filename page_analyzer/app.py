@@ -10,7 +10,7 @@ from requests.exceptions import HTTPError
 
 from .html_parser import get_description, get_h1, get_title
 from .repository import AnalyzerRepo
-from .normalize import normazile
+from .normalize import normalize
 
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
@@ -30,11 +30,10 @@ def index():
 def add_url():
 	url_to_check = request.form.get("url").strip()
 	if not url_to_check:
-		errors = {"name": "please enter url"}
 		flash("Please enter url", 'danger')
 		return render_template('index.html', 
-						url={"name": url_to_check}, 
-						errors=errors), 400
+						url={"name": ""}, 
+						errors={"name": "please enter url"}), 400
 	if not validators.url(url_to_check):
 		errors = {"name": "invalid url"}
 		flash('Url is incorrect', 'danger')
@@ -42,7 +41,7 @@ def add_url():
 						url={"name": url_to_check},
 						errors=errors), 422
 	try:
-		url_norm = normazile(url_to_check)
+		url_norm = normalize(url_to_check)
 		url_id, result = repo.add_url_if_not_exists(url_norm)
 		if result == True:
 			flash('Страница успешно добавлена', 'success')
@@ -52,7 +51,7 @@ def add_url():
 	except Exception as e:
 		flash(f'Ошибка при добавлении URL: {str(e)}', 'danger')
 		return render_template('index.html', 
-						url={"name": url_norm}, 
+						url={"name": url_to_check}, 
 						errors={}), 500
 
 
