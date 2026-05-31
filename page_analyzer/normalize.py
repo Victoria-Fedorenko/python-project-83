@@ -10,9 +10,10 @@ def normalize(url: str) -> str:
     if hostname.startswith('www.'):
         hostname = hostname[4:]
 
+    netloc = hostname
     if parsed.port: 
         if (parsed.scheme == 'http' and parsed.port != 80) or \
            (parsed.scheme == 'https' and parsed.port != 443):
-            hostname = f':{parsed.port}'
+            netloc = f':{parsed.port}'
 
-    return f"{parsed.scheme}://{hostname}"
+    return f"{parsed.scheme}://{netloc}"
