@@ -67,7 +67,7 @@ def show_url_info(id):
 	return render_template('url_info.html', info=info, result=result)
 
 
-@app.route('/urls', methods=["GET", "POST"])
+@app.route('/urls')
 def show_all_urls():
 	urls = repo.get_urls()
 	return render_template('all_urls.html', urls=urls)
