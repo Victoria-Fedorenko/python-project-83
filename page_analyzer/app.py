@@ -25,8 +25,7 @@ repo = AnalyzerRepo()
 def index():
 	return render_template('index.html', url={}, errors={})
 
-
-@app.route("/", methods=["POST"])
+@app.route("/urls", methods=["POST"])
 def add_url():
 	url_to_check = request.form.get("url").strip()
 	if not url_to_check:
@@ -54,6 +53,11 @@ def add_url():
 						url={"name": url_to_check}, 
 						errors={}), 500
 
+@app.route('/urls')
+def show_all_urls():
+	urls = repo.get_urls()
+	return render_template('all_urls.html', urls=urls)
+
 
 @app.route('/urls/<int:id>')
 def show_url_info(id):
@@ -65,12 +69,6 @@ def show_url_info(id):
 	if result is None:
 		return render_template('url_info.html', info=info, result=[])
 	return render_template('url_info.html', info=info, result=result)
-
-
-@app.route('/urls')
-def show_all_urls():
-	urls = repo.get_urls()
-	return render_template('all_urls.html', urls=urls)
 
 
 @app.route('/urls/<id>/checks', methods=["POST"])
