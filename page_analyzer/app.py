@@ -29,13 +29,13 @@ def index():
 def add_url():
 	url_to_check = request.form.get("url").strip()
 	if not url_to_check:
-		flash("Please enter url", 'danger')
+		flash("Пожалуйста, введите URL", 'danger')
 		return render_template('index.html', 
 						url={"name": ""}, 
-						errors={"name": "please enter url"}), 400
+						errors={"name": "Введите URL"}), 400
 	if not validators.url(url_to_check):
-		errors = {"name": "invalid url"}
-		flash('Некорректный URL', 'danger')
+		errors = {"name": "Некорректный URL"}
+		flash('Некорректный URL', 'alert')
 		return render_template('index.html', 
 						url={"name": url_to_check},
 						errors=errors), 422
@@ -78,7 +78,7 @@ def check_id(id):
 	soup = BeautifulSoup(response.text, 'html.parser')
 
 	if not url_name:
-		flash('URL not found', 'danger')
+		flash('URL не найден', 'danger')
 		return redirect(url_for('show_url_info', id=id))
 
 	try:
@@ -88,13 +88,13 @@ def check_id(id):
 		title = get_title(soup)
 		description = get_description(soup)
 	except HTTPError as e:
-		flash(f'Error {e} occured while getting status code', 'danger')
+		flash(f'Ошибка {e} возникла во время получения статуса', 'danger')
 		return redirect(url_for('show_url_info', id=id))
 	if repo.do_check(id, sc, h1, title, description) is True:
 		flash('Страница успешно проверена', 'success')
 		return redirect(url_for('show_url_info', id=id))
 	else:
-		flash('Error occured while checking', 'danger')
+		flash('Возникла ошибка во время проверки', 'danger')
 		return redirect(url_for('show_url_info', id=id))
 
 
