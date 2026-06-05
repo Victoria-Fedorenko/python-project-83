@@ -35,7 +35,7 @@ def add_url():
 						errors={"name": "please enter url"}), 400
 	if not validators.url(url_to_check):
 		errors = {"name": "invalid url"}
-		flash('Url is incorrect', 'danger')
+		flash('Некорректный URL', 'danger')
 		return render_template('index.html', 
 						url={"name": url_to_check},
 						errors=errors), 422
