@@ -31,20 +31,17 @@ def add_url():
 	if not url_to_check:
 		flash("Пожалуйста, введите URL", 'danger')
 		return render_template('index.html', 
-						url={"name": ""}, 
-						errors={"name": "Введите URL"}), 400
+						url={"name": ""}, errors={}), 400
 	if not validators.url(url_to_check):
-		errors = {"name": "Некорректный URL"}
-		flash('Некорректный URL', 'alert')
+		flash('Некорректный URL', 'danger')
 		return render_template('index.html', 
-						url={"name": url_to_check},
-						errors=errors), 422
+						url={"name": url_to_check}, errors={}), 422
 	try:
 		url_norm = normalize(url_to_check)
 		url_id, result = repo.add_url_if_not_exists(url_norm)
-		if result == True:
+		if result:
 			flash('Страница успешно добавлена', 'success')
-		elif result == False:
+		elif not result:
 			flash('Страница уже существует', 'danger')
 		return redirect(url_for('show_url_info', id=url_id))
 	except Exception as e:

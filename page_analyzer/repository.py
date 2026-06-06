@@ -104,7 +104,7 @@ class AnalyzerRepo:
                             (id, sc, h1, title, description,))
                 conn.commit()
                 return True
-        except psycopg2.Error as e:
+        except psycopg2.Error:
             return False
         finally:
             conn.close()
