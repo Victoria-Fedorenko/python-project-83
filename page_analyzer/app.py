@@ -84,8 +84,8 @@ def check_id(id):
 		h1 = get_h1(soup)
 		title = get_title(soup)
 		description = get_description(soup)
-	except HTTPError as e:
-		flash(f'Произошла ошибка при проверке', 'danger')
+	except HTTPError:
+		flash('Произошла ошибка при проверке', 'danger')
 		return redirect(url_for('show_url_info', id=id))
 	if repo.do_check(id, sc, h1, title, description) is True:
 		flash('Страница успешно проверена', 'success')
